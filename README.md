@@ -3,37 +3,39 @@
   
 A server/client file transfer service over sockets  
 
-## Description: 
+## Description:  
 > This project functions using two  
-> programs: server.py (written in python), and  
-> client.c (written in C). The process is shown  
+> programs: ftClient.py (written in python), and  
+> ftServer.c (written in C). The process is shown  
 > below:  
-> 1. Server starts listening on a given port  
-> 2. Client connects to given host on given port  
-> 3. Connection is made  
-> 4. Client is prompted for a username  
-> 5. Client sends first message to server  
-> 6. Server replies  
-> 7. Steps 5-6 are repeated until client or server quits  
+> 1. ftserver starts and listens on [PORTNUM] socket  
+> 2. ftclient initiates a connection on [PORTNUM] socket  
+> 3. The connection is made  
+> 4. ftserver initiates a data connection on [DATAPORTNUM] socket  
+> 5. ftclient requests either a directory listing or a file on the [DATAPORT] socket  
+> 6. ftserver sends the listing, file, or appropriate error to ftclient  
+> 7. ftserver closes the data connection on [DATAPORTNUM]  
+> 8. ftclint closes the original connection on [PORTNUM]  
+> 9. ftserver repeats step 1 until terminated by user  
+------------------------------------------------------
 
 
-## Files Needed:
-> 1. server.py  
-> 2. client.c  
+## Files Needed:  
+> ftServer.c  
+> ftclient.py  
 
-## How to compile client.c into executable:
-> g++ client.c -o client
+## How to compile ftServer.c into executable:  
+> g++ ftServer.c -o ftserver  
 
-## How to Run Program:
-> 1. Start Server by typing: 'python3 server.py [PORTNUM]'  
-> 2. Start Client by typing: 'client [HOSTNAME] [PORTNUM]'  
-   *HOSTNAME should be the name of the server*	*PORTNUM should be same number*  
-> 3. Client enters username  
-> 4. Client sends message  
-> 5. Server send message  
-> 6. Continue as long as you want  
-> 7. Quit at any time (in server or client)  
-   by typing: '\quit' as your message  
+## How to Run Program:  
+> 1. Start server by typing: 'ftserver [PORTNUM]'  
+> 2a. Request directory from server by typing: 'python3 ftclient.py flip[x] [PORTNUM] -l [DATAPORTNUM]'  
+> OR  
+> 2b. Request file from server by typing: 'python3 ftclient.py flip[x] [PORTNUM] -g [FILENAME] [DATAPORTNUM]'  
+
+> **In both cases (2a & 2b), flip[x] should be whichever flip server that the server is run from.  
+> For example: if the flip server is started on flip3, then the client should give flip3 as the 3rd command**  
+
    
 ## Tech and/or concepts learned/used:
 > - C
